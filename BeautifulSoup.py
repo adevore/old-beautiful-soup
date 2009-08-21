@@ -802,19 +802,11 @@ class Tag(PageElement):
         raise StopIteration
 
     def recursiveChildGenerator(self):
-        stack = [(self, 0)]
-        while stack:
-            tag, start = stack.pop()
-            if isinstance(tag, Tag):
-                for i in range(start, len(tag.contents)):
-                    a = tag.contents[i]
-                    yield a
-                    if isinstance(a, Tag) and tag.contents:
-                        if i < len(tag.contents) - 1:
-                            stack.append((tag, i+1))
-                        stack.append((a, 0))
-                        break
-        raise StopIteration
+        current = self.next
+        stop = self._lastRecursiveChild().next
+        while current is not stop:
+            yield current
+            current = current.next
 
 # Next, a couple classes to represent queries and their results.
 class SoupStrainer:
