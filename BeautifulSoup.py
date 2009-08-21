@@ -816,7 +816,8 @@ class SoupStrainer:
     def __init__(self, name=None, attrs={}, text=None, **kwargs):
         self.name = name
         if isString(attrs):
-            kwargs['class'] = attrs
+            kwargs['class'] = re.compile(
+                r"(.*[\s]+|[\s]*)%s(.*[\s]+|[\s]*)" % attrs)
             attrs = None
         if kwargs:
             if attrs:
