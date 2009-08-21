@@ -231,6 +231,8 @@ class PageElement:
         if newChildsLastElement.next:
             newChildsLastElement.next.previous = newChildsLastElement
         self.contents.insert(position, newChild)
+        if len(self.contents) == 1 and isinstance(self.contents, NavigableString):
+            self.string = self.contents[0]
 
     def append(self, tag):
         """Appends the given tag to the contents of this tag."""
@@ -1168,9 +1170,6 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         # Tags with just one string-owning child get the child as a
         # 'string' property, so that soup.tag.string is shorthand for
         # soup.tag.contents[0]
-        if len(self.currentTag.contents) == 1 and \
-           isinstance(self.currentTag.contents[0], NavigableString):
-            self.currentTag.string = self.currentTag.contents[0]
 
         #print "Pop", tag.name
         if self.tagStack:
