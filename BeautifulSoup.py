@@ -1462,7 +1462,7 @@ class BeautifulSoup(BeautifulStoneSoup):
 
     SELF_CLOSING_TAGS = buildTagMap(None,
                                     ['br' , 'hr', 'input', 'img', 'meta',
-                                    'spacer', 'link', 'frame', 'base'])
+                                    'spacer', 'link', 'frame', 'base', 'col'])
 
     PRESERVE_WHITESPACE_TAGS = set(['pre', 'textarea'])
 
