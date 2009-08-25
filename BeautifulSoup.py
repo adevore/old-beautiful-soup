@@ -231,8 +231,6 @@ class PageElement:
         if newChildsLastElement.next:
             newChildsLastElement.next.previous = newChildsLastElement
         self.contents.insert(position, newChild)
-        if len(self.contents) == 1 and isinstance(self.contents, NavigableString):
-            self.string = self.contents[0]
 
     def append(self, tag):
         """Appends the given tag to the contents of this tag."""
@@ -522,6 +520,17 @@ class Tag(PageElement):
                                           self._convertEntities,
                                           val))
         self.attrs = map(convert, self.attrs)
+
+    def getString(self):
+        if (len(self.contents[0]) == 1
+            and isinstance(self.contents, NavigableString)):
+            return self.contents[0]
+
+    def setString(self, string):
+        self.clear()
+        self.append(string)
+
+    string = property(getString, setString)
 
     def get(self, key, default=None):
         """Returns the value of the 'key' attribute for the tag, or
@@ -1164,9 +1173,6 @@ class BeautifulStoneSoup(Tag, SGMLParser):
 
     def popTag(self):
         tag = self.tagStack.pop()
-        # Tags with just one string-owning child get the child as a
-        # 'string' property, so that soup.tag.string is shorthand for
-        # soup.tag.contents[0]
 
         #print "Pop", tag.name
         if self.tagStack:
