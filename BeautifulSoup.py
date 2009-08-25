@@ -531,6 +531,13 @@ class Tag(PageElement):
         self.append(string)
 
     string = property(getString, setString)
+    
+    def text(self):
+        return u"".join([descendant.strip()
+            for descendant in self.recursiveChildGenerator()
+            if isinstance(descendant, NavigableString)])
+    
+    text = property(text)
 
     def get(self, key, default=None):
         """Returns the value of the 'key' attribute for the tag, or
