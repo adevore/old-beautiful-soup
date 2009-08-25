@@ -819,14 +819,19 @@ class Tag(PageElement):
 
     #Generator methods
     def childGenerator(self):
-        for i in range(0, len(self.contents)):
-            yield self.contents[i]
-        raise StopIteration
+        if not len(self.contents):
+            raise StopIteration
+        current = self.contents[0]
+        while current:
+            yield current
+            current = current.next
 
     def recursiveChildGenerator(self):
-        current = self.next
-        stop = self._lastRecursiveChild().next
-        while current is not stop:
+        if not len(self.contents):
+            raise StopIteration
+        stopNode = self._lastRecursiveChild().next
+        current = self.contents[0]
+        while current is not stopNode:
             yield current
             current = current.next
 
