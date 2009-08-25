@@ -529,6 +529,10 @@ class Tag(PageElement):
         attribute."""
         return self._getAttrMap().get(key, default)
 
+    def clear(self):
+         for child in self.contents[:]:
+                child.extract()
+
     def has_key(self, key):
         return self._getAttrMap().has_key(key)
 
