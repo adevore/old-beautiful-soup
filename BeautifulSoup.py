@@ -527,6 +527,7 @@ class Tag(PageElement):
             return self.contents[0]
 
     def setString(self, string):
+        """Replace the contents of the tag with a string"""
         self.clear()
         self.append(string)
 
@@ -546,8 +547,9 @@ class Tag(PageElement):
         return self._getAttrMap().get(key, default)
 
     def clear(self):
-         for child in self.contents[:]:
-                child.extract()
+        """Extract all children."""
+        for child in self.contents[:]:
+            child.extract()
 
     def has_key(self, key):
         return self._getAttrMap().has_key(key)
