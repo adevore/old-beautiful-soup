@@ -106,7 +106,7 @@ DEFAULT_OUTPUT_ENCODING = "utf-8"
 
 # First, the classes that represent markup elements.
 
-class PageElement:
+class PageElement(object):
     """Contains the navigational information for some part of the page
     (either a tag or a piece of text)"""
 
@@ -522,8 +522,8 @@ class Tag(PageElement):
         self.attrs = map(convert, self.attrs)
 
     def getString(self):
-        if (len(self.contents[0]) == 1
-            and isinstance(self.contents, NavigableString)):
+        if (len(self.contents) == 1
+            and isinstance(self.contents[0], NavigableString)):
             return self.contents[0]
 
     def setString(self, string):
