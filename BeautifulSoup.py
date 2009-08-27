@@ -79,7 +79,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE, DAMMIT.
 from __future__ import generators
 
 __author__ = "Leonard Richardson (leonardr@segfault.org)"
-__version__ = "3.0.8 Beta"
+__version__ = "3.0.7a"
 __copyright__ = "Copyright (c) 2004-2008 Leonard Richardson"
 __license__ = "New-style BSD"
 
