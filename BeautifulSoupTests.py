@@ -176,6 +176,14 @@ class StringEmUp(SoupTest):
         s = BeautifulSoup("<b>f<i>e</i>o</b>")
         self.assert_(not s.b.string)
 
+    def testStringAssign(self):
+        s = BeautifulSoup("<b></b>")
+        b = s.b
+        b.string = "foo"
+        string = b.string
+        self.assertEquals(string, "foo")
+        self.assert_(isinstance(string, NavigableString))
+
 class ThatsMyLimit(SoupTest):
     "Tests the limit argument."
 
