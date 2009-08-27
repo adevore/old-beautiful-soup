@@ -549,6 +549,12 @@ class Tag(PageElement):
         """Extract all children."""
         for child in self.contents[:]:
             child.extract()
+            
+    def index(self, element):
+        for i, child in enumerate(self.contents):
+            if child is element:
+                return i
+        raise ValueError("Tag.index: element not in tag")
 
     def has_key(self, key):
         return self._getAttrMap().has_key(key)
