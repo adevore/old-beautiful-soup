@@ -124,10 +124,11 @@ class PageElement(object):
 
     def replaceWith(self, replaceWith):
         oldParent = self.parent
-        myIndex = self.parent.contents.index(self)
-        if hasattr(replaceWith, 'parent') and replaceWith.parent == self.parent:
+        myIndex = self.parent.index(self)
+        if hasattr(replaceWith, "parent")\
+                  and replaceWith.parent is self.parent:
             # We're replacing this element with one of its siblings.
-            index = self.parent.contents.index(replaceWith)
+            index = replaceWith.parent.index(replaceWith)
             if index and index < myIndex:
                 # Furthermore, it comes before this element. That
                 # means that when we extract it, the index of this
@@ -178,7 +179,7 @@ class PageElement(object):
             newChild = NavigableString(newChild)
 
         position =  min(position, len(self.contents))
-        if hasattr(newChild, 'parent') and newChild.parent != None:
+        if hasattr(newChild, 'parent') and newChild.parent is not None:
             # We're 'inserting' an element that's already one
             # of this object's children.
             if newChild.parent == self:
@@ -502,7 +503,7 @@ class Tag(PageElement):
         self.parserClass = parser.__class__
         self.isSelfClosing = parser.isSelfClosingTag(name)
         self.name = name
-        if attrs == None:
+        if attrs is None:
             attrs = []
         self.attrs = attrs
         self.contents = []
@@ -928,8 +929,8 @@ class SoupStrainer:
     def _matches(self, markup, matchAgainst):
         #print "Matching %s against %s" % (markup, matchAgainst)
         result = False
-        if matchAgainst == True and type(matchAgainst) == types.BooleanType:
-            result = markup != None
+        if matchAgainst is True:
+            result = markup is not None
         elif callable(matchAgainst):
             result = matchAgainst(markup)
         else:
@@ -1276,9 +1277,9 @@ class BeautifulStoneSoup(Tag, SGMLParser):
                 #last occurance.
                 popTo = name
                 break
-            if (nestingResetTriggers != None
+            if (nestingResetTriggers is not None
                 and p.name in nestingResetTriggers) \
-                or (nestingResetTriggers == None and isResetNesting
+                or (nestingResetTriggers is None and isResetNesting
                     and self.RESET_NESTING_TAGS.has_key(p.name)):
 
                 #If we encounter one of the nesting reset triggers
@@ -1769,7 +1770,7 @@ class UnicodeDammit:
         """Changes a MS smart quote character to an XML or HTML
         entity."""
         sub = self.MS_CHARS.get(orig)
-        if type(sub) == types.TupleType:
+        if isinstance(sub, tuple):
             if self.smartQuotesTo == 'xml':
                 sub = '&#x%s;' % sub[1]
             else:
