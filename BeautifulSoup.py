@@ -173,8 +173,7 @@ class PageElement(object):
         return lastChild
 
     def insert(self, position, newChild):
-        if (isinstance(newChild, basestring)
-            or isinstance(newChild, unicode)) \
+        if (isString(newChild)) \
             and not isinstance(newChild, NavigableString):
             newChild = NavigableString(newChild)
 
@@ -819,12 +818,8 @@ class Tag(PageElement):
 
     #Generator methods
     def childGenerator(self):
-        if not len(self.contents):
-            raise StopIteration
-        current = self.contents[0]
-        while current:
-            yield current
-            current = current.next
+        # Just use the iterator from the contents
+        return iter(self.contents)
 
     def recursiveChildGenerator(self):
         if not len(self.contents):
