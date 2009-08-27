@@ -182,9 +182,9 @@ class PageElement(object):
         if hasattr(newChild, 'parent') and newChild.parent is not None:
             # We're 'inserting' an element that's already one
             # of this object's children.
-            if newChild.parent == self:
-                index = self.find(newChild)
-                if index and index < position:
+            if newChild.parent is self:
+                index = self.index(newChild)
+                if index > position:
                     # Furthermore we're moving it further down the
                     # list of this object's children. That means that
                     # when we extract this element, our target index
