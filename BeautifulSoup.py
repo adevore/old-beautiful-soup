@@ -622,6 +622,8 @@ class Tag(PageElement):
 
         NOTE: right now this will return false if two tags have the
         same attributes in a different order. Should this be fixed?"""
+        if other is self:
+            return True
         if not hasattr(other, 'name') or not hasattr(other, 'attrs') or not hasattr(other, 'contents') or self.name != other.name or self.attrs != other.attrs or len(self) != len(other):
             return False
         for i in range(0, len(self.contents)):
