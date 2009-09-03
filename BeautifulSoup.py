@@ -171,7 +171,7 @@ class PageElement(object):
         return lastChild
 
     def insert(self, position, newChild):
-        if (isString(newChild)) \
+        if isinstance(newChild, basestring) \
             and not isinstance(newChild, NavigableString):
             newChild = NavigableString(newChild)
 
@@ -665,7 +665,7 @@ class Tag(PageElement):
         if self.attrs:
             for key, val in self.attrs:
                 fmt = '%s="%s"'
-                if isString(val):
+                if isinstance(val, basestring):
                     if self.containsSubstitutions and '%SOUP-ENCODING%' in val:
                         val = self.substituteEncoding(val, encoding)
 
@@ -841,7 +841,7 @@ class SoupStrainer:
 
     def __init__(self, name=None, attrs={}, text=None, **kwargs):
         self.name = name
-        if isString(attrs):
+        if isinstance(attrs, basestring):
             kwargs['class'] = re.compile(
                 r"(.*[\s]+|[\s]*)%s(.*[\s]+|[\s]*)" % attrs)
             attrs = None
@@ -902,7 +902,8 @@ class SoupStrainer:
         found = None
         # If given a list of items, scan it for a text element that
         # matches.
-        if isList(markup) and not isinstance(markup, Tag):
+        if hasattr(markup, "__iter__") \
+                and not isinstance(markup, Tag):
             for element in markup:
                 if isinstance(element, NavigableString) \
                        and self.search(element):
@@ -915,7 +916,7 @@ class SoupStrainer:
                 found = self.searchTag(markup)
         # If it's text, make sure the text matches.
         elif isinstance(markup, NavigableString) or \
-                 isString(markup):
+                 isinstance(markup, basestring):
             if self._matches(markup, self.text):
                 found = markup
         else:
@@ -935,17 +936,17 @@ class SoupStrainer:
             #other ways of matching match the tag name as a string.
             if isinstance(markup, Tag):
                 markup = markup.name
-            if markup and not isString(markup):
+            if markup and not isinstance(markup, basestring):
                 markup = unicode(markup)
             #Now we know that chunk is either a string, or None.
             if hasattr(matchAgainst, 'match'):
                 # It's a regexp object.
                 result = markup and matchAgainst.search(markup)
-            elif isList(matchAgainst):
+            elif hasattr(matchAgainst, '__iter__'): # list-like
                 result = markup in matchAgainst
             elif hasattr(matchAgainst, 'items'):
                 result = markup.has_key(matchAgainst)
-            elif matchAgainst and isString(markup):
+            elif matchAgainst and isinstance(markup, basestring):
                 if isinstance(markup, unicode):
                     matchAgainst = unicode(matchAgainst)
                 else:
@@ -973,10 +974,7 @@ def isList(l):
 def isString(s):
     """Convenience method that works with all 2.x versions of Python
     to determine whether or not something is stringlike."""
-    try:
-        return isinstance(s, unicode) or isinstance(s, basestring)
-    except NameError:
-        return isinstance(s, str)
+    return isinstance(s, basestring)
 
 def buildTagMap(default, *args):
     """Turns a list of maps, lists, or scalars into a single map.
@@ -988,7 +986,7 @@ def buildTagMap(default, *args):
             #It's a map. Merge it.
             for k,v in portion.items():
                 built[k] = v
-        elif isList(portion):
+        elif hasattr(portion, '__iter__'): # is a list
             #It's a list. Map each item to the default.
             for k in portion:
                 built[k] = default
@@ -1137,7 +1135,7 @@ class BeautifulStoneSoup(Tag, SGMLParser):
             self.declaredHTMLEncoding = dammit.declaredHTMLEncoding
         if markup:
             if self.markupMassage:
-                if not isList(self.markupMassage):
+                if not hasattr(self.markupMassage, "__iter__"):
                     self.markupMassage = self.MARKUP_MASSAGE
                 for fix, m in self.markupMassage:
                     markup = fix.sub(m, markup)
