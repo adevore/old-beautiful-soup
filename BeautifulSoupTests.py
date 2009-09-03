@@ -368,6 +368,14 @@ class WriteOnlyCode(SoupTest):
         self.assertEqual(f.previousSibling, weText)
         self.assertEqual(f.nextSibling, None)
         self.assertEqual(weText.nextSibling, f)
+    
+    def testReplaceWithChildren(self):
+        soup = BeautifulStoneSoup(
+            "<top><replace><child1/><child2/></replace></top>",
+            selfClosingTags=["child1", "child2"])
+        soup.replaceTag.replaceWithChildren()
+        self.assertEqual(soup.top.contents[0].name, "child1")
+        self.assertEqual(soup.top.contents[1].name, "child2")
 
     def testAppend(self):
        doc = "<p>Don't leave me <b>here</b>.</p> <p>Don't leave me.</p>"
