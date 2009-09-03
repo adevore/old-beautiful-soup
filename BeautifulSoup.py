@@ -137,6 +137,15 @@ class PageElement(object):
         self.extract()
         oldParent.insert(myIndex, replaceWith)
 
+    def replaceWithChildren(self):
+        myParent = self.parent
+        myIndex = self.parent.index(self)
+        self.extract()
+        reversedChildren = list(self.contents)
+        reversedChildren.reverse()
+        for child in reversedChildren:
+            myParent.insert(myIndex, child)
+
     def extract(self):
         """Destructively rips this element out of the tree."""
         if self.parent:
