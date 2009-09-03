@@ -16,6 +16,9 @@ class SoupTest(unittest.TestCase):
         if rep == None:
             rep = toParse
         self.assertEqual(str(c(toParse)), rep)
+    
+    def assertSame(self, node1, node2):
+        self.assertTrue(node1 is node2)
 
 class FollowThatTag(SoupTest):
 
