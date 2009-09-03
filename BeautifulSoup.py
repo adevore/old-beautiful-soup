@@ -140,7 +140,10 @@ class PageElement(object):
     def extract(self):
         """Destructively rips this element out of the tree."""
         if self.parent:
-            del self.parent.contents[self.parent.index(self)]
+            try:
+                del self.parent.contents[self.parent.index(self)]
+            except ValueError:
+                pass
 
         #Find the two elements that would be next to each other if
         #this element (and any children) hadn't been parsed. Connect
