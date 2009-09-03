@@ -331,6 +331,16 @@ class PageElement(object):
 
         if isinstance(name, SoupStrainer):
             strainer = name
+        # Special case find*(True) to match all Tags
+        elif name is True and not attrs and not kwargs:
+            strainer = SoupStrainer(name, attrs, text, **kwargs)
+            results = ResultSet(strainer)
+            for element in generator():
+                if isinstance(element, Tag):
+                    results.append(element)
+                if limit and len(results) >= limit:
+                    break
+            return results
         else:
             # Build a SoupStrainer
             strainer = SoupStrainer(name, attrs, text, **kwargs)
