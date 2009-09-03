@@ -437,6 +437,11 @@ class WriteOnlyCode(SoupTest):
         self.assertEqual(three.previous, one)
         self.assertEqual(one.parent.nextSibling, three)
         self.assertEqual(three.previousSibling, soup.a)
+        
+    def testClear(self):
+        soup = BeautifulSoup("<ul><li></li><li></li></ul>")
+        soup.ul.clear()
+        self.assertEqual(len(soup.ul.contents), 0)
 
 class TheManWithoutAttributes(SoupTest):
     "Test attribute access"
