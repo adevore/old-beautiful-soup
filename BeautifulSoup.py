@@ -761,13 +761,20 @@ class Tag(PageElement):
 
     def decompose(self):
         """Recursively destroys the contents of this tree."""
-        contents = [i for i in self.contents]
-        for i in contents:
-            if isinstance(i, Tag):
-                i.decompose()
-            else:
-                i.extract()
         self.extract()
+        if len(self.contents) == 0:
+            return
+        current = self.contents[0]
+        while current is not None:
+            next = current.next
+            if isinstance(current, Tag):
+                del current.contents[:]
+            current.parent = None
+            current.previous = None
+            current.previousSibling = None
+            current.next = None
+            current.nextSibling = None
+            current = next
 
     def prettify(self, encoding=DEFAULT_OUTPUT_ENCODING):
         return self.__str__(encoding, True)
