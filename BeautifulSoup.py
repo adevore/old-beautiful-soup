@@ -1324,7 +1324,7 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         if self.quoteStack:
             #This is not a real tag.
             #print "<%s> is not real!" % name
-            attrs = ''.join(map(lambda(x, y): ' %s="%s"' % (x, y), attrs))
+            attrs = ''.join([' %s="%s"' % (x, y) for x, y in attrs])
             self.handle_data('<%s%s>' % (name, attrs))
             return
         self.endData()
