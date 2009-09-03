@@ -1189,10 +1189,10 @@ class BeautifulStoneSoup(Tag, SGMLParser):
         superclass or the Tag superclass, depending on the method name."""
         #print "__getattr__ called on %s.%s" % (self.__class__, methodName)
 
-        if methodName.find('start_') == 0 or methodName.find('end_') == 0 \
-               or methodName.find('do_') == 0:
+        if methodName.startswith('start_') or methodName.startswith('end_') \
+               or methodName.startswith('do_'):
             return SGMLParser.__getattr__(self, methodName)
-        elif methodName.find('__') != 0:
+        elif not methodName.startswith('__'):
             return Tag.__getattr__(self, methodName)
         else:
             raise AttributeError
