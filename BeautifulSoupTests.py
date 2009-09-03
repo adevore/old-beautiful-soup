@@ -187,6 +187,13 @@ class StringEmUp(SoupTest):
         self.assertEquals(string, "foo")
         self.assert_(isinstance(string, NavigableString))
 
+class AllText(SoupTest):
+    "Tests the use of 'text' to get all of string content from the tag."
+    
+    def testText(self):
+        soup = BeautifulSoup("<ul><li>spam</li><li>eggs</li><li>cheese</li>")
+        self.assertEquals(soup.ul.text, "spameggscheese")
+
 class ThatsMyLimit(SoupTest):
     "Tests the limit argument."
 
