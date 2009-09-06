@@ -1,0 +1,52 @@
+Old Beautiful Soup
+Beautiful Soup fork based on version 3.0.7a
+This is not an official version of Beautiful Soup!
+
+Version 3.1.0 of Beautiful Soup has problems parsing some HTML that version
+3.0.7a can handle. The problems are mostly caused by the move from SGMLParser to
+HTMLParser. There is simply no way to fix them. SGMLParser was removed from
+Python 3, so the switch had to be made for forward compatibility.
+
+Old Beautiful Soup continues some limited development on the 3.0 line. The work
+is mostly some bug fixes, speed-ups and the addition of some minor features to
+the tree code. Don't expect anything special. Some of the changes might make it
+into a Launchpad fork of the Beautiful Soup trunk.
+
+
+
+99.999% of the credit for Old Beautiful Soup goes to Leonard Richardson. Little
+tweaks are nothing compared to the work he put into Beautiful Soup. 
+
+==Cautions==
+This version of Beautiful Soup isn't significantly faster in reality than
+previous versions. There is no improvement in parsing speed, which usually
+dwarfs the time taken by tree queries.
+
+There are several properties and functions here that 
+
+==Additional Features from 3.0.7a==
+Tag.replaceWithChildren()
+Replace a tag with its children.
+
+Tag.string assignment
+`tag.string = string` replaces the contents of a tag with `string`.
+
+Tag.text property (NOT A FUNCTION!)
+tag.text gathers together and joins all text children. Much faster than
+"".join(tag.findAll(text=True))
+
+Tag.getText(seperator=u"")
+Same as Tag.text, but a function that allows a custom seperator between joined
+text elements.
+
+Tag.index(element) -> int
+Returns the index of `element`. Matches the actual element instead of __eq__.
+
+Tag.clear()
+Remove all child elements.
+
+==Speed-ups==
+Tag.decompose() is several times faster.
+A very basic findAll(...) is several times faster.
+findAll(True) is special cased
+Tag.recursiveChildGenerator is extremely faster
