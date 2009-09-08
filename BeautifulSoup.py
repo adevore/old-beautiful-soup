@@ -338,10 +338,10 @@ class PageElement(object):
                     if isinstance(element, Tag)]
 
         # findAll*('tag-name')
-#        elif not limit and isinstance(name, basestring) and not attrs \
-#                and not kwargs:
-#            return [element for element in generator()
-#                    if isinstance(element, Tag) and element.name == name]
+        elif not limit and isinstance(name, basestring) and not attrs \
+                and not kwargs:
+            return [element for element in generator()
+                    if isinstance(element, Tag) and element.name == name]
 
         # Build a SoupStrainer
         else:
