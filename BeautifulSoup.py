@@ -331,19 +331,19 @@ class PageElement(object):
 
         if isinstance(name, SoupStrainer):
             strainer = name
-        # Special case find*(True) to match all Tags
-        elif name is True and not attrs and not kwargs:
-            strainer = SoupStrainer(name, attrs, text, **kwargs)
-            results = ResultSet(strainer)
-            for element in generator():
-                if isinstance(element, Tag):
-                    results.append(element)
-                if limit and len(results) >= limit:
-                    break
-            return results
-        else:
-            # Build a SoupStrainer
-            strainer = SoupStrainer(name, attrs, text, **kwargs)
+        # Special case some findAll* searches
+        # findAll*(True)
+        elif not limit and name is True and not attrs and not kwargs:
+            return [element for element in generator()
+                    if isinstance(element, Tag)]
+        # findAll*('tag-name')
+        elif not limit and isinstance(name, basestring) and not attrs \
+                and not kwargs:
+            return [element for element in generator()
+                    if isinstance(element, Tag) and element.name == name]
+
+        # Build a SoupStrainer
+        strainer = SoupStrainer(name, attrs, text, **kwargs)
         results = ResultSet(strainer)
         g = generator()
         while True:
