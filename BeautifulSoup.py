@@ -553,9 +553,17 @@ class Tag(PageElement):
     string = property(getString, setString)
     
     def getText(self, separator=u""):
-        return separator.join((descendant.strip()
-            for descendant in self.recursiveChildGenerator()
-            if isinstance(descendant, NavigableString)))
+        if not len(self.contents):
+            return u""
+        stopNode = self._lastRecursiveChild().next
+        strings = []
+        current = self.contents[0]
+        while current is not stopNode:
+            if isinstance(current, NavigableString):
+                strings.append(current.strip())
+            current = current.next
+        return u"".join(strings)
+            
     
     text = property(getText)
 
