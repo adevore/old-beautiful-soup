@@ -49,4 +49,4 @@ Remove all child elements.
 Tag.decompose() is several times faster.
 A very basic findAll(...) is several times faster.
 findAll(True) is special cased
-Tag.recursiveChildGenerator is extremely faster
+Tag.recursiveChildGenerator is much faster
