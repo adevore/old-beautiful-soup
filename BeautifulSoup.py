@@ -1837,8 +1837,7 @@ class UnicodeDammit:
         except Exception, e:
             # print "That didn't work!"
             # print e
-            self.markup = markup.decode('latin1', 'ignore')
-            self.originalEncoding = proposed
+            return None
         #print "Correct encoding: %s" % proposed
         return self.markup
 
